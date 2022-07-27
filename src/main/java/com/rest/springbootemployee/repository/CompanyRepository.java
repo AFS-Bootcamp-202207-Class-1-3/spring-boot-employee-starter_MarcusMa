@@ -29,25 +29,25 @@ public class CompanyRepository {
         return companyList;
     }
 
-    public Company findCompanyById(int id) {
+    public Company findCompanyById(Integer id) {
         return companyList.stream()
                 .filter(company -> company.getId() == id)
                 .findFirst()
                 .orElseThrow(NotFoundCompany::new);
     }
 
-    public List<Employee> findCompanyAllEmployeesByCompanyId(int id) {
+    public List<Employee> findCompanyAllEmployeesByCompanyId(Integer id) {
         return findCompanyById(id).getEmployees();
     }
 
-    public List<Company> findCompaniesByPageAndPageSize(int page, int pageSize) {
+    public List<Company> findCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
         return companyList.stream()
                 .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
 
-    public int generateId(){
+    public Integer generateId(){
         return companyList.stream()
                 .mapToInt(Company::getId)
                 .max()
@@ -60,12 +60,12 @@ public class CompanyRepository {
         return true;
     }
 
-    public Boolean update(int id,List<Employee> employees) {
+    public Boolean update(Integer id,List<Employee> employees) {
         findCompanyById(id).addEmployees(employees);
         return true;
     }
 
-    public Boolean delete(int id) {
+    public Boolean delete(Integer id) {
         return companyList.remove(findCompanyById(id));
     }
 }
