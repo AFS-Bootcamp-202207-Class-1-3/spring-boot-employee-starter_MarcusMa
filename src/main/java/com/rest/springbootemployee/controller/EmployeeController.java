@@ -21,7 +21,6 @@ public class EmployeeController {
         return employeeRepository.findAllEmployees();
     }
 
-//    Integer Integer
     @GetMapping("/{id}")
     public Employee getEmployeeById(@PathVariable Integer id) {
         return employeeRepository.findEmployeeById(id);

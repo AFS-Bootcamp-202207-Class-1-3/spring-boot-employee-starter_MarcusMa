@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class EmployeeRepository {
-    private List<Employee> employeeList;
+    private final List<Employee> employeeList;
 
     public EmployeeRepository() {
         employeeList = new ArrayList<Employee>() {
@@ -30,7 +30,7 @@ public class EmployeeRepository {
 
     public Employee findEmployeeById(Integer id) {
         return employeeList.stream()
-                .filter(employee -> employee.getId() == id)
+                .filter(employee -> employee.getId().equals(id))
                 .findFirst().orElseThrow(NotFoundEmployee::new);
     }
 
@@ -47,7 +47,7 @@ public class EmployeeRepository {
     }
 
     private Integer generateId() {
-        Integer maxId = employeeList.stream()
+        int maxId = employeeList.stream()
                 .mapToInt(Employee::getId)
                 .max()
                 .orElse(0);
@@ -56,7 +56,7 @@ public class EmployeeRepository {
 
     public Employee update(Integer id, Employee employee) {
         Employee employee1 = employeeList.stream()
-                .filter(employee2 -> employee2.getId() == id)
+                .filter(employee2 -> employee2.getId().equals(id))
                 .findFirst()
                 .orElseThrow(NotFoundEmployee::new);
         employee1.update(employee);
@@ -69,7 +69,7 @@ public class EmployeeRepository {
 
     public List<Employee> findEmployeesByPageAndPageSize(Integer page, Integer pageSize) {
         return employeeList.stream()
-                .skip((page - 1) * pageSize)
+                .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }

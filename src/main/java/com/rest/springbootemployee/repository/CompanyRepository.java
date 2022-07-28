@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class CompanyRepository {
-    private List<Company> companyList;
+    private final List<Company> companyList;
 
     public CompanyRepository(EmployeeRepository employeeRepository) {
         companyList = new ArrayList<Company>() {
@@ -31,7 +31,7 @@ public class CompanyRepository {
 
     public Company findCompanyById(Integer id) {
         return companyList.stream()
-                .filter(company -> company.getId() == id)
+                .filter(company -> company.getId().equals(id))
                 .findFirst()
                 .orElseThrow(NotFoundCompany::new);
     }
@@ -42,7 +42,7 @@ public class CompanyRepository {
 
     public List<Company> findCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
         return companyList.stream()
-                .skip((page - 1) * pageSize)
+                .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
